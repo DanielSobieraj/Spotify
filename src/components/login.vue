@@ -1,18 +1,14 @@
 <template>
-    <div id="login">
         <v-app>
             <v-layout align-center justify-center fill-height application.theme--dark>
-                <v-flex xs2>
+                <v-flex xs6>
                     <v-text-field label="Wprowadź token" type="text" v-model="token"/>
                     <v-btn @click="saveLocalStorage()">Zatwierdź</v-btn>
                     <br>
                     {{ tokenError }}
-
-                    <router-view></router-view>
                 </v-flex>
             </v-layout>
         </v-app>
-    </div>
 </template>
 
 
@@ -45,7 +41,7 @@
                     .get(`${this.baseURL}artists/1Cs0zKBU1kc0i8ypK3B9ai`)
                     // eslint-disable-next-line
                     .then(response => {
-                        this.tokenError = null
+                        this.tokenError = 'Token accepted'
                     })
                     .catch(err => {
                         this.tokenError = err.response.data.error.message

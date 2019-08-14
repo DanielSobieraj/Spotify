@@ -1,7 +1,7 @@
-import login from '/src/components/login'
-import spotify from '/src/components/spotify'
+import login from '../components/login'
+import spotify from '../components/spotify'
 
 export const routes = [
-    { path: '', component: login },
-    { path: '/spotify', component: spotify }
+    { path: '/', component: login },
+    { path: 'spotify', component: spotify }
 ];
