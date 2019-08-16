@@ -16,13 +16,12 @@
     import axios from 'axios';
 
     export default {
-        name: "spotify",
+        name: 'spotify',
         data() {
             return {
                 info: null,
                 name: '',
                 token: '',
-                baseURL: "https://api.spotify.com/v1/",
                 tokenError: '',
             }
         },
@@ -38,7 +37,6 @@
         },
         methods: {
             requestSong() {
-
                 axios
                     .get(`${this.baseURL}search?q=${this.name}&type=artist,album,track`)
                     // eslint-disable-next-line

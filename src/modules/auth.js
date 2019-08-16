@@ -1,12 +1,7 @@
 import axios from 'axios'
 
-export default {
-    state: {
-
-    },
-    mutations: {
-        saveLocalStorage() {
-            axios.defaults.headers.common.Authorization = `Bearer ${this.token}`;
-        },
+export const = auth {
+    modules: {
+        axios.defaults.headers.common.Authorization = `Bearer ${localStorage.token}`;
     }
 };
