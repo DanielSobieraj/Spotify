@@ -1,21 +1,30 @@
 <template>
-    <div id="app">
-        <login>
-        </login>
-        <spotify></spotify>
+    <div id="app" class="app">
+        <app-layout></app-layout>
     </div>
 </template>
 
 <script>
-    import login from './components/login'
-    import spotify from './components/spotify'
-
+    import {mapGetters, mapActions} from 'vuex'
+    import AppLayout from "@/layouts/AppLayout";
 
     export default ({
         el: '#app',
         components: {
-            login,
-            spotify,
+            AppLayout
         },
+        computed: {
+            ...mapGetters({
+                notFound: 'app/notFound'
+            })
+        },
+        methods: {
+            ...mapActions({
+                init: 'app/init',
+            })
+        },
+        created() {
+            this.init();
+        }
     });
 </script>

@@ -1,23 +1,11 @@
-import App from './App.vue'
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import vuetify from './plugins/vuetify';
+import App from './App'
 
-import { routes } from './routes/routes';
-import { store } from './store/index'
-
-Vue.use(VueRouter);
-Vue.config.productionTip = false
-
-const router = new VueRouter({
-  routes
-});
+import router from './router/router'
+import store from './store/store'
 
 new Vue({
-  name: '#app',
-  vuetify,
-  VueRouter,
-  store,
-  router,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app')
