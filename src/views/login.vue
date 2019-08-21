@@ -1,34 +1,45 @@
 <template>
-    <div class="login"></div>
+    <div class="login">
+        <p>Wklej token:</p>
+        <input v-model="token"/>
+        <br>
+        <button @click="addToken">Naciśnij mnie</button>
+        <br>
+        {{ e }}
+    </div>
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
-    import router from '../router/router'
+    // import {mapActions} from 'vuex'
+    // import router from '../router/router'
 
     export default {
         name: "login",
-        methods: {
-            ...mapActions('auth', [
-                'setAccessToken',
-                'setRefreshToken',
-                'setExpiryTime'
-            ]),
-        },
-        created() {
-            const {access_token, refresh_token, expires_in, error} = this.$route.query;
-
-            if (error) {
-                // eslint-disable-next-line
-                console.error(error);
-            } else if (access_token && refresh_token && expires_in) {
-                this.setAccessToken(access_token);
-                this.setRefreshToken(refresh_token);
-                this.setExpiryTime(expires_in);
+        data() {
+            return {
+                token: '',
+                error: '',
             }
-            router.push('/');
-        }
-    };
+        },
+        methods: {
+            addToken() {
+                try {
+                    localStorage.setItem('token', this.token)
+                } catch (e) {
+                }
+            }
+        },
+        // created() {
+        //     const {access_token, error} = this.$route.query;
+        //     if (error) {
+        //         // eslint-disable-next-line
+        //         console.error(error);
+        //     } else if (access_token) {
+        //         this.setAccessToken(access_token);
+        //     }
+        //     router.push('/');
+        // }
+    }
 </script>
 
 <style scoped>

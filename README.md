@@ -1,4 +1,4 @@
-# Project Spotify
+# spotify
 
 ## Project setup
 ```
