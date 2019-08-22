@@ -1,35 +1,36 @@
 <template>
-    <div id="app">
-        <v-app>
-            <div>
-                <v-toolbar>
-                    <v-toolbar-title>Spotify Player</v-toolbar-title>
+  <v-app>
+    <v-app-bar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>Vuetify</span>
+        <span class="font-weight-light">MATERIAL DESIGN</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        text
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+      >
+        <span class="mr-2">Latest Release</span>
+      </v-btn>
+    </v-app-bar>
 
-                    <div class="flex-grow-1"></div>
-
-                    <v-toolbar-items>
-                        <v-btn text>
-                            <router-link to="/">home</router-link>
-                        </v-btn>
-                        <v-btn text>
-                            <router-link to="/login">Zaloguj</router-link>
-                        </v-btn>
-                    </v-toolbar-items>
-                </v-toolbar>
-            </div>
-            <router-view/>
-        </v-app>
-    </div>
+    <v-content>
+      <HelloWorld/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-    import router from './router'
+import HelloWorld from './components/HelloWorld';
 
-    export default {
-        name: 'app',
-        router,
-        data: () => ({
-            //
-        }),
-    };
+export default {
+  name: 'App',
+  components: {
+    HelloWorld,
+  },
+  data: () => ({
+    //
+  }),
+};
 </script>
