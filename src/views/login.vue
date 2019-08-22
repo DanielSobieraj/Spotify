@@ -1,16 +1,20 @@
 <template>
     <div class="login">
         <p>Wklej token:</p>
-        <input v-model="token"/>
+        <v-text-field
+                label="Outlined"
+                outlined
+                v-model="token"
+        ></v-text-field>
         <br>
-        <button @click="addToken">Naciśnij mnie</button>
+        <button @click="sendToken">Naciśnij mnie</button>
         <br>
         {{ e }}
     </div>
 </template>
 
 <script>
-    // import {mapActions} from 'vuex'
+    import {mapActions} from 'vuex'
     // import router from '../router/router'
 
     export default {
@@ -18,27 +22,13 @@
         data() {
             return {
                 token: '',
-                error: '',
             }
         },
         methods: {
-            addToken() {
-                try {
-                    localStorage.setItem('token', this.token)
-                } catch (e) {
-                }
+            ...mapActions(['token']),
+            sendToken() {
             }
-        },
-        // created() {
-        //     const {access_token, error} = this.$route.query;
-        //     if (error) {
-        //         // eslint-disable-next-line
-        //         console.error(error);
-        //     } else if (access_token) {
-        //         this.setAccessToken(access_token);
-        //     }
-        //     router.push('/');
-        // }
+        }
     }
 </script>
 
