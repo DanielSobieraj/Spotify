@@ -1,4 +1,4 @@
-import login from '../../services/login'
+// import login from '../../services/login'
 
 const module = {
     namespaced: true,
@@ -12,12 +12,14 @@ const module = {
         // }
     },
     mutations: {
+        storeToken (state, payload) {
+            state.token = payload
+        }
     },
     actions: {
-        setAxiosDefault({state}) {
-            login.axToken(state.token);
-            login.getMyUser(state.baseURL)
-        },
+        setToken ({ commit}, payload) {
+            commit('storeToken', payload)
+        }
         // async setAxiosBaseURL({state}) {
         //     login.getMyUser(state.baseURL)
         // }
