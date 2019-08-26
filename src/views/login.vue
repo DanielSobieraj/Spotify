@@ -11,7 +11,9 @@
                     ></v-text-field>
                     <div class="text-center">
                         <v-btn @click="sendToken">Zaloguj się</v-btn>
-                        <p class="my-5">{{  }}</p>
+                        <ul>
+                            <li v-for="(value, key) in info" :key="key">{{ value }}</li>
+                        </ul>
                     </div>
                 </v-flex>
             </v-layout>
@@ -20,25 +22,28 @@
 </template>
 
 <script>
+    import axios from 'axios'
     // import router from '../router/router'
-    import {mapActions, mapMutations} from 'vuex'
+    // import {mapActions} from 'vuex'
 
     export default {
         name: "login",
         data() {
             return {
-                token: '',
+                token: this.$store.state.auth.token,
+                info: null
             }
         },
         methods: {
-            ...mapMutations(['setTokenAuth']),
-            ...mapActions('auth', ['setAxiosDefault']),
             sendToken() {
-                localStorage.setItem('authToken', `${this.token}`);
+                localStorage.setItem('authToken', this.token);
+                axios
+                    .get(this.$store.state.auth.baseURL + 'me')
+                    .then(response => (this.info = response.data));
             },
         },
-        created() {
-            this.setAxiosDefault();
+        created: function () {
+            axios.defaults.headers.common['Authorization'] = `Bearer ` + this.$store.state.auth.token;
         }
     }
 </script>
@@ -46,3 +51,5 @@
 <style scoped>
 
 </style>
+
+<!--localStorage.setItem('authToken', `${this.token}`);-->

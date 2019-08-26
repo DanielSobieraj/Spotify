@@ -1,29 +1,26 @@
 import login from '../../services/login'
-/* eslint-disable */
+
 const module = {
     namespaced: true,
     state: {
-        token: '',
+        token: localStorage.getItem('authToken'),
         baseURL: 'https://api.spotify.com/v1/',
     },
     getters: {
-        login: state => {
-            return state.token
-        },
-        getBaseURL: state => {
-            return state.baseURL
-        }
+        // getBaseURL: state => {
+        //     return state.baseURL
+        // }
     },
     mutations: {
-        setTokenAuth(state) {
-            state.token = localStorage.getItem('authToken')
-        }
     },
     actions: {
-        async setAxiosDefault({commit, state}) {
-            login.setToken(state.token);
-            login.getUser(state.baseURL)
+        setAxiosDefault({state}) {
+            login.axToken(state.token);
+            login.getMyUser(state.baseURL)
         },
+        // async setAxiosBaseURL({state}) {
+        //     login.getMyUser(state.baseURL)
+        // }
     }
 };
 

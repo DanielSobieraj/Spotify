@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 export default {
-    setToken() {
-         return axios.defaults.headers.common['Authorization'] = `bearer ` + localStorage.getItem('authToken')
+    axToken() {
+        return axios.defaults.headers.common['Authorization'] = `bearer ` + this.$store.state.auth.token;
     },
-    getUser(setURL) {
-        return axios.get(setURL + 'user/11143584604?si=wg4V9IF0RTCgxragwtgjJw')
+    getMyUser() {
+        return axios.get(this.$store.state.auth.baseURL + 'me')
     }
-}
+};
