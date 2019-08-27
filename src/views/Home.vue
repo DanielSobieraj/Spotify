@@ -11,8 +11,11 @@
                             min="10"
                             @keyup="searchBar"
                     ></v-text-field>
-                    <p>{{ search }}</p>
-                    <span><router-link to="/login">Wyloguj</router-link></span>
+                    <p v-for="(resp, key) in search" :key="key">{{ resp }}</p>
+                    <p>{{ responseError }}</p>
+                    <span>
+                        <router-link to="/login">Wyloguj</router-link>
+                    </span>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -34,20 +37,16 @@
         methods: {
             searchBar() {
                 axios
-                    .get(this.$store.state.auth.baseURL + `search?q=${this.search}&type=album,track,artist`)
+                    .get(this.$store.state.auth.baseURL + `search?q=${this.search}&type=track`)
                     .then(response => {
                             this.search = response.data;
-                            debugger
                         },
                     )
                     .catch(err => {
                         this.responseError = err.response.data.error.message;
                         router.push({path: '/login'})
                     });
-            }
+            },
         },
-        created: function () {
-            axios.defaults.headers.common['Authorization'] = `Bearer ` + this.$store.state.auth.token;
-        }
     };
 </script>
