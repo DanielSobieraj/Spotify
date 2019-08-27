@@ -3,7 +3,10 @@
         <v-container fill-height>
             <v-layout row wrap align-center>
                 <v-flex col-10 col-md-4 mx-auto>
-                    <h1 class="py-4 text-center">VueSpotify</h1>
+                    <div class="py-4 text-center">
+                        <h2>Witaj w</h2>
+                        <h1>VueSpotify</h1>
+                    </div>
                     <v-text-field
                             label="Wpisz token"
                             outlined
@@ -12,11 +15,11 @@
                     ></v-text-field>
                     <div class="text-center">
                         <v-btn @click="sendToken">Zaloguj się</v-btn>
-                        <div class="">
-                            <ul class="row" style="list-style: none">
-                                <li v-for="(value, key) in info" :key="key">{{ value }}</li>
-                            </ul>
-                            <v-btn @click="sendToken">Przejdź dalej</v-btn>
+                        <div class="my-5">
+                            <hr>
+                            <p v-if="responseUser">{{ responseUser }}</p>
+                            <p v-else>{{ responseError }}</p>
+                            <!--                            <v-btn @click="sendToken">Przejdź dalej</v-btn>-->
                         </div>
                     </div>
                 </v-flex>
@@ -25,28 +28,37 @@
     </v-app>
 </template>
 
+
+
 <script>
     import axios from 'axios'
-    // import router from '../router/router'
+    import router from '../router'
     // import {mapActions} from 'vuex'
-
+    // eslint-disable-next-line to ignore the next line.
     export default {
         name: "login",
         data() {
             return {
                 token: this.$store.state.auth.token,
-                info: null
+                responseUser: null,
+                responseError: null
             }
         },
         methods: {
             sendToken() {
                 localStorage.setItem('authToken', this.token);
-                this.$store.dispatch('auth/setToken', this.token);
+                // this.$store.dispatch('auth/setToken', this.token);
                 axios
                     .get(this.$store.state.auth.baseURL + 'me')
-                    .then(response => (this.info = response.data),
+                    .then(response => {
+                            this.responseUser = 'Witaj, ' + response.data.display_name;
+                            router.push({path: '/home'})
+                        },
                     )
-                    .catch(err => (this.info = err));
+                    .catch(err => {
+                        this.responseError = err.response.data.error.message;
+                        router.push({path: '/login'})
+                    });
             },
         },
         created: function () {

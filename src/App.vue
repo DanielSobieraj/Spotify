@@ -13,20 +13,22 @@
         <!--            </v-btn>-->
         <!--        </v-app-bar>-->
         <v-container>
-            <login/>
+            <home/>
         </v-container>
     </v-app>
 </template>
 
 <script>
     import router from './router'
-    import login from './views/login'
+    // import login from './views/login'
+    import home from './views/Home'
 
     export default {
         name: 'App',
         router,
         components: {
-            login
+            // login,
+            home
         },
         data: () => ({
             //

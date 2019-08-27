@@ -17,9 +17,9 @@ const module = {
         }
     },
     actions: {
-        setToken ({ commit}, payload) {
-            commit('storeToken', payload)
-        }
+        // setToken ({ commit}, payload) {
+        //     commit('storeToken', payload)
+        // }
         // async setAxiosBaseURL({state}) {
         //     login.getMyUser(state.baseURL)
         // }
