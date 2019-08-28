@@ -1,5 +1,5 @@
 <template>
-    <v-app style="background: grey">
+    <v-app>
         <v-content>
             <v-container
                     class="fill-height pa-0"
@@ -26,7 +26,7 @@
                             <v-card-text>
                                 <v-form>
                                     <v-text-field
-                                            label="Token"
+                                            label="Wpisz token"
                                             v-model="token"
                                             type="text"
                                             :error-messages="responseError"
@@ -34,10 +34,10 @@
                                 </v-form>
                             </v-card-text>
                             <v-card-actions class="d-flex justify-center">
-                                <v-btn color="#1db954" dark large @click="sendToken">Login</v-btn>
+                                <v-btn color="#1db954" dark large @click="sendToken">Zaloguj</v-btn>
                             </v-card-actions>
                         </v-card>
-                        <!--                        <p>{{ responseError }}</p>-->
+                        <!-- <p>{{ responseError }}</p>-->
                     </v-col>
                 </v-row>
             </v-container>
@@ -49,35 +49,40 @@
 <script>
     import axios from 'axios'
     import router from '../router'
+    import {mapActions} from 'vuex'
 
     export default {
         name: "login",
         data() {
             return {
-                token: this.$store.state.auth.token,
+                token: '',
                 responseUser: null,
                 responseError: null
             }
         },
         methods: {
+            ...mapActions('auth', ['setToken']),
             sendToken() {
-                localStorage.setItem('authToken', this.token);
-                // this.$store.dispatch('auth/setToken', this.token);
+                let headers = {'Authorization': `Bearer ` + this.token};
                 axios
-                    .get(this.$store.state.auth.baseURL + 'me')
+                    .get(this.$store.state.auth.baseURL + 'me', {headers})
                     .then(response => {
-                            this.responseUser = 'Witaj, ' + response.data.display_name;
+                            // this.responseUser = 'Witaj, ' + response.data.display_name;
+                            this.setToken(this.token);
+                            this.setAuth();
                             router.push({path: '/home'})
                         },
                     )
                     .catch(err => {
                         this.responseError = err.response.data.error.message;
-                        router.push({path: '/login'})
                     });
             },
+            setAuth() {
+                axios.defaults.headers.common['Authorization'] = `Bearer ` + this.$store.state.auth.token;
+            }
         },
         created: function () {
-            axios.defaults.headers.common['Authorization'] = `Bearer ` + this.$store.state.auth.token;
+            this.setAuth();
         }
     }
 </script>
