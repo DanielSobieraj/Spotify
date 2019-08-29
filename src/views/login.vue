@@ -28,8 +28,8 @@
                                     <v-text-field
                                             label="Wpisz token"
                                             v-model="token"
-                                            type="text"
                                             :error-messages="responseError"
+                                            color="#1db954"
                                     ></v-text-field>
                                 </v-form>
                             </v-card-text>
@@ -67,7 +67,7 @@
                 axios
                     .get(this.$store.state.auth.baseURL + 'me', {headers})
                     .then(response => {
-                            // this.responseUser = 'Witaj, ' + response.data.display_name;
+                            this.responseUser = 'Witaj, ' + response.data.display_name;
                             this.setToken(this.token);
                             this.setAuth();
                             router.push({path: '/home'})
@@ -75,10 +75,11 @@
                     )
                     .catch(err => {
                         this.responseError = err.response.data.error.message;
+                        localStorage.clear()
                     });
             },
             setAuth() {
-                axios.defaults.headers.common['Authorization'] = `Bearer ` + this.$store.state.auth.token;
+
             }
         },
         created: function () {
