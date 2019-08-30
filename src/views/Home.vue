@@ -20,7 +20,7 @@
                             @keyup="searchBar"
                             color="#1db954"
                             :error-messages="responseError"
-                            success-messages=""
+                            :success-messages="responseSuccess"
                             class="mt-5"
                     ></v-text-field>
                 </v-col>
@@ -50,73 +50,101 @@
                                     sm-8
                                     md-4
                                     lg-2
-                                    justify="around"
+                                    justify="center"
                                     align="center"
                                     v-for="(artists, key1) in responseArtists" :key="key1"
                             >
+                                <div>
+                                    <v-card
+                                            width="250"
+                                            height="270"
+                                            class="mx-auto"
+                                            :style="{backgroundImage: 'url(' + artists.images[0].url + ')',
+                                        backgroundSize: 'cover'}"
+                                    >
+                                    </v-card>
+                                    <v-card-title class="d-flex justify-center">{{ artists.name }}
+                                    </v-card-title>
+                                </div>
+                            </v-flex>
+                        </v-layout>
+                        <hr class="my5">
+                        <h2>Utwory</h2>
+                        <v-layout wrap row>
+                            <v-flex
+                                    xs-12
+                                    sm-8
+                                    md-4
+                                    lg-2
+                                    justify="around"
+                                    align="center"
+                                    v-for="(tracks, indexTrack) in responseTracks" :key="indexTrack"
+                            >
+                                <div>
+                                    <v-card
+                                            width="250"
+                                            height="270"
+                                            @click="playTrack(indexTrack)"
+                                            class="mx-auto overflow-hidden"
+                                            :style="{
+                                            backgroundColor: 'rgba(29,185,84,0.8)',
+                                            backgroundImage: 'url(' + playImage + ')',
+                                            backgroundSize: 'cover'}"
+                                    >
+                                    </v-card>
+                                    <v-card-title class="d-flex justify-center">
+                                        {{ tracks.name }}
+                                    </v-card-title>
+                                    <v-card-text class="d-flex justify-center">
+                                        {{ tracks.artists[0].name }}
+                                    </v-card-text>
+                                </div>
+                            </v-flex>
+                        </v-layout>
+                        <hr>
+                        <h2>Albumy</h2>
+                        <v-layout wrap row>
+                            <v-flex
+                                    xs-12
+                                    sm-8
+                                    md-4
+                                    lg-2
+                                    justify="around"
+                                    align="center"
+                                    v-for="(albums, indexAlbum) in responseAlbums" :key="indexAlbum">
                                 <v-card
-                                        max-width="190"
-                                        height="200"
+                                        width="250"
+                                        height="270"
                                         class="mx-auto"
+                                        :style="{
+                                        backgroundImage: 'url(' + albumCover + ')',
+                                        backgroundSize: 'cover'}"
                                 >
-                                    <v-card-title>{{ artists.name }}</v-card-title>
                                 </v-card>
+                                <v-card-title class="d-flex justify-center">
+                                    {{ albums.name }}
+                                </v-card-title>
+                                <v-card-text class="d-flex justify-center">
+                                    {{ albums.artists[0].name }}
+                                </v-card-text>
                             </v-flex>
                         </v-layout>
                     </v-flex>
                 </v-layout>
-                <hr>
-                <h2>Utwory</h2>
-                <v-layout wrap row>
-                    <v-flex
-                            xs-12
-                            sm-8
-                            md-4
-                            lg-2
-                            justify="around"
-                            align="center"
-                            v-for="(tracks, key2) in responseTracks" :key="key2"
-                    >
-                        <v-card
-                                max-width="190"
-                                height="200"
-                                class="mx-auto"
-                        >
-                            <v-card-title>{{ tracks.name }}</v-card-title>
-                            <v-card-text></v-card-text>
-                            <v-card-actions>
-                                <v-btn>Play</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-                <hr>
-                <h2>Albumy</h2>
-                <v-card
-                        width="175"
-                        height="200"
-                        class="mx-auto"
-                        v-for="(albums, key3) in responseAlbums" :key="key3"
-                >
-                    <v-card-title>{{ albums.name }}</v-card-title>
-                    <v-card-text>{{ albums.name }}</v-card-text>
-                    <v-card-actions>
-                        <v-btn>Play</v-btn>
-                    </v-card-actions>
-                </v-card>
-
             </v-container>
         </v-content>
 
         <v-footer app>
-            <p>Stopka</p>
+            <audio controls :src="this.trackURL" autoplay>
+                <source :src="trackURL">
+            </audio>
+            {{ this.trackName }}{{ this.trackArtist }}
         </v-footer>
     </v-app>
 </template>
 
 <script>
     import axios from 'axios'
-
 
     export default {
         name: "home",
@@ -126,7 +154,13 @@
                 responseTracks: [],
                 responseArtists: [],
                 responseAlbums: [],
-                responseError: null
+                responseSuccess: '',
+                responseError: null,
+                playImage: 'http://pixsector.com/cache/0d0aeff3/av63fa1d6082bbbeb54d8.png',
+                albumCover: '',
+                trackName: '',
+                trackArtist: '',
+                trackURL: '',
             }
         },
         methods: {
@@ -137,6 +171,7 @@
                             this.responseTracks = response.data.tracks.items;
                             this.responseArtists = response.data.artists.items;
                             this.responseAlbums = response.data.albums.items;
+                            this.responseError = '';
                         },
                     )
                     .catch(err => {
@@ -147,6 +182,25 @@
             clearToken() {
                 localStorage.clear();
                 this.$router.push({path: '/login'})
+            },
+            playTrack(indexTrack) {
+                this.trackURL = this.responseTracks[indexTrack].preview_url;
+                if (this.trackURL !== null) {
+                    this.trackName = this.responseTracks[indexTrack].artists[0].name + ' - ';
+                    this.trackArtist = this.responseTracks[indexTrack].name;
+                } else {
+                    this.trackName = 'Brak utworu';
+                    this.trackArtist = null;
+                    this.trackURL = '';
+                }
+            },
+            albumCoverTest() {
+                this.albumCover = this.responseAlbums[0].images[0].url;
+                if (this.albumCover !== undefined) {
+                    this.albumCover = this.responseAlbums[0].images[0].url;
+                } else {
+                    this.albumCover = 'https://i.scdn.co/image/cc1b320bd06c6167997e65fd5e38d35c1a26caf1';
+                }
             }
         },
         created: function () {

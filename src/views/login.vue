@@ -79,7 +79,6 @@
                     });
             },
             setAuth() {
-
             }
         },
         created: function () {
