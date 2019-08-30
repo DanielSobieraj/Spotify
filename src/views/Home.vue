@@ -7,7 +7,8 @@
         <v-app-bar
                 app
                 height="100"
-                extension-height="200">
+                extension-height="200"
+                wrap>
             <v-row
                     align="center"
                     justify="space-between">
@@ -44,61 +45,71 @@
                     >
                         <h2>Wykonawcy</h2>
                         <v-layout wrap row>
-                            <v-flex xs-12 md-2 justify="center"
-                                    align="center" v-for="(artists, key1) in responseArtists" :key="key1">
+                            <v-flex
+                                    xs-12
+                                    sm-8
+                                    md-4
+                                    lg-2
+                                    justify="around"
+                                    align="center"
+                                    v-for="(artists, key1) in responseArtists" :key="key1"
+                            >
                                 <v-card
-                                        max-width="200"
+                                        max-width="190"
                                         height="200"
                                         class="mx-auto"
                                 >
                                     <v-card-title>{{ artists.name }}</v-card-title>
-                                    <v-card-text>{{ artists.name }}</v-card-text>
-                                    <v-card-actions>
-                                        <v-btn>Play</v-btn>
-                                    </v-card-actions>
                                 </v-card>
                             </v-flex>
                         </v-layout>
-
                     </v-flex>
                 </v-layout>
-                <v-layout>
-                    <v-flex>
-                        <hr>
-                        <h2>Utwory</h2>
+                <hr>
+                <h2>Utwory</h2>
+                <v-layout wrap row>
+                    <v-flex
+                            xs-12
+                            sm-8
+                            md-4
+                            lg-2
+                            justify="around"
+                            align="center"
+                            v-for="(tracks, key2) in responseTracks" :key="key2"
+                    >
                         <v-card
-                                width="175"
+                                max-width="190"
                                 height="200"
                                 class="mx-auto"
-                                v-for="(tracks, key2) in responseTracks" :key="key2"
                         >
                             <v-card-title>{{ tracks.name }}</v-card-title>
-                            <v-card-text>{{ tracks.name }}</v-card-text>
-                            <v-card-actions>
-                                <v-btn>Play</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        <hr>
-                        <h2>Albumy</h2>
-                        <v-card
-                                width="175"
-                                height="200"
-                                class="mx-auto"
-                                v-for="(albums, key3) in responseAlbums" :key="key3"
-                        >
-                            <v-card-title>{{ albums.name }}</v-card-title>
-                            <v-card-text>{{ albums.name }}</v-card-text>
+                            <v-card-text></v-card-text>
                             <v-card-actions>
                                 <v-btn>Play</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-flex>
                 </v-layout>
+                <hr>
+                <h2>Albumy</h2>
+                <v-card
+                        width="175"
+                        height="200"
+                        class="mx-auto"
+                        v-for="(albums, key3) in responseAlbums" :key="key3"
+                >
+                    <v-card-title>{{ albums.name }}</v-card-title>
+                    <v-card-text>{{ albums.name }}</v-card-text>
+                    <v-card-actions>
+                        <v-btn>Play</v-btn>
+                    </v-card-actions>
+                </v-card>
+
             </v-container>
         </v-content>
 
         <v-footer app>
-            <!-- -->
+            <p>Stopka</p>
         </v-footer>
     </v-app>
 </template>
@@ -138,7 +149,7 @@
                 this.$router.push({path: '/login'})
             }
         },
-        created: function() {
+        created: function () {
             axios.defaults.headers.common['Authorization'] = `Bearer ` + localStorage.getItem('authToken');
         }
     };

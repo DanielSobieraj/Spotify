@@ -10,7 +10,7 @@ Vue.use(Router);
 const router = new Router({
     mode: 'history',
     routes: [
-        {path: '/', redirect: {patch: '/login'}},
+        {path: '/', redirect: '/login'},
         {
             path: '/login', name: 'Login', component: login,
             beforeEnter: (to, from, next) => {
