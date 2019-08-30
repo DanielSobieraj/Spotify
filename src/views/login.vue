@@ -45,7 +45,6 @@
     </v-app>
 </template>
 
-
 <script>
     import axios from 'axios'
     import router from '../router'
@@ -91,3 +90,7 @@
 </style>
 
 <!--localStorage.setItem('authToken', `${this.token}`);-->
+
+<!--WEBPACKS-->
+<!--PACKPAGE JSON-->
+<!--CONFIG-->

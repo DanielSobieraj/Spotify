@@ -165,17 +165,18 @@
         },
         methods: {
             searchBar() {
+                let vm = this
                 axios
                     .get(this.$store.state.auth.baseURL + `search?q=${this.search}&type=track,artist,album&limit=6`)
                     .then(response => {
-                            this.responseTracks = response.data.tracks.items;
-                            this.responseArtists = response.data.artists.items;
-                            this.responseAlbums = response.data.albums.items;
-                            this.responseError = '';
+                        vm.responseTracks = response.data.tracks.items;
+                        vm.responseArtists = response.data.artists.items;
+                        vm.responseAlbums = response.data.albums.items;
+                        vm.responseError = '';
                         },
                     )
                     .catch(err => {
-                        this.responseError = err.response.data.error.message;
+                        vm.responseError = err.response.data.error.message;
                         // router.push({path: '/login'})
                     });
             },
@@ -194,10 +195,13 @@
                     this.trackURL = '';
                 }
             },
-            albumCoverTest() {
-                this.albumCover = this.responseAlbums[0].images[0].url;
+            // Object.map(item => {
+            //   item.
+            // })!!!
+            albumCoverTest(indexAlbum) {
+                this.albumCover = this.responseAlbums[indexAlbum].images[0].url;
                 if (this.albumCover !== undefined) {
-                    this.albumCover = this.responseAlbums[0].images[0].url;
+                    this.albumCover = this.responseAlbums[indexAlbum].images[0].url;
                 } else {
                     this.albumCover = 'https://i.scdn.co/image/cc1b320bd06c6167997e65fd5e38d35c1a26caf1';
                 }
