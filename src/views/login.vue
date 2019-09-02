@@ -48,7 +48,7 @@
 <script>
     import router from '../router'
     import {mapActions} from 'vuex'
-    import request from "../services/request";
+    import service from '../services/service'
 
     export default {
         name: "login",
@@ -63,7 +63,7 @@
             ...mapActions('auth', ['setToken']),
             sendToken() {
                 let headers = {'Authorization': `Bearer ` + this.token};
-                request.get('me', {headers})
+                service.request.get('me', {headers})
                     .then(response => {
                             this.responseUser = 'Witaj, ' + response.data.display_name;
                             this.setToken(this.token);

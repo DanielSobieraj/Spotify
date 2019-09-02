@@ -62,7 +62,8 @@
                                         backgroundSize: 'cover'}"
                                     >
                                     </v-card>
-                                    <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">{{ artists.name }}
+                                    <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center"
+                                                  style="width:250px;">{{ artists.name }}
                                     </v-card-title>
                                 </div>
                             </v-flex>
@@ -87,11 +88,12 @@
                                             class="mx-auto overflow-hidden"
                                             :style="{
                                             backgroundColor: 'rgba(29,185,84,0.8)',
-                                            backgroundImage: 'url(' + playImage + ')',
+                                            backgroundImage: url('src/assets/spotifyPlay.png'),
                                             backgroundSize: 'cover'}"
                                     >
                                     </v-card>
-                                    <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">
+                                    <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center"
+                                                  style="width:250px;">
                                         {{ tracks.name }}
                                     </v-card-title>
                                     <v-card-text class="d-flex justify-center">
@@ -120,10 +122,12 @@
                                         backgroundSize: 'cover'}"
                                 >
                                 </v-card>
-                                <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">
+                                <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center"
+                                              style="width:250px;">
                                     {{ albums.name }}
                                 </v-card-title>
-                                <v-card-text class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">
+                                <v-card-text class="d-flex justify-center flex-wrap mx-auto text-center"
+                                             style="width:250px;">
                                     {{ albums.artists[0].name }}
                                 </v-card-text>
                             </v-flex>
@@ -143,6 +147,7 @@
 </template>
 
 <script>
+    import token from "../services/token";
     import request from "../services/request";
 
     export default {
@@ -155,7 +160,6 @@
                 responseAlbums: [],
                 responseSuccess: '',
                 responseError: null,
-                playImage: 'http://pixsector.com/cache/0d0aeff3/av63fa1d6082bbbeb54d8.png',
                 albumCover: '',
                 trackName: '',
                 trackArtist: '',
@@ -164,19 +168,17 @@
         },
         methods: {
             searchBar() {
-                let vm = this
-                    request.get(`search?q=${this.search}&type=track,artist,album&limit=6`)
-                    .then(response => {
-                            vm.responseTracks = response.data.tracks.items;
-                            vm.responseArtists = response.data.artists.items;
-                            vm.responseAlbums = response.data.albums.items;
-                            vm.responseError = '';
-                        },
-                    )
+                let vm = this;
+                token.search(this.search)
+                .then(response => {
+                        vm.responseTracks = response.data.tracks.items;
+                        vm.responseArtists = response.data.artists.items;
+                        vm.responseAlbums = response.data.albums.items;
+                        vm.responseError = '';
+                    })
                     .catch(err => {
                         vm.responseError = err.response.data.error.message;
-                        // router.push({path: '/login'})
-                    });
+                    })
             },
             clearToken() {
                 localStorage.clear();
