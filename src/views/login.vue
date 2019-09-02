@@ -46,9 +46,9 @@
 </template>
 
 <script>
-    import axios from 'axios'
     import router from '../router'
     import {mapActions} from 'vuex'
+    import request from "../services/request";
 
     export default {
         name: "login",
@@ -63,8 +63,7 @@
             ...mapActions('auth', ['setToken']),
             sendToken() {
                 let headers = {'Authorization': `Bearer ` + this.token};
-                axios
-                    .get(this.$store.state.auth.baseURL + 'me', {headers})
+                request.get('me', {headers})
                     .then(response => {
                             this.responseUser = 'Witaj, ' + response.data.display_name;
                             this.setToken(this.token);
