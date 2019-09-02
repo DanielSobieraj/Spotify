@@ -88,8 +88,6 @@
 <style scoped>
 </style>
 
-<!--localStorage.setItem('authToken', `${this.token}`);-->
-
 <!--WEBPACKS-->
 <!--PACKPAGE JSON-->
 <!--CONFIG-->

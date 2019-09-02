@@ -2,7 +2,6 @@ const module = {
     namespaced: true,
     state: {
         token: '',
-        baseURL: 'https://api.spotify.com/v1/',
     },
     getters: {
 
@@ -14,7 +13,7 @@ const module = {
     },
     actions: {
         setToken ({ commit }, token) {
-            localStorage.setItem('authToken', token)
+            localStorage.setItem('authToken', token);
             commit('setToken')
         }
     }

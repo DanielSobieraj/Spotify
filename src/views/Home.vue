@@ -143,7 +143,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import request from "../services/request";
 
     export default {
         name: "home",
@@ -165,8 +165,7 @@
         methods: {
             searchBar() {
                 let vm = this
-                axios
-                    .get(this.$store.state.auth.baseURL + `search?q=${this.search}&type=track,artist,album&limit=6`)
+                    request.get(`search?q=${this.search}&type=track,artist,album&limit=6`)
                     .then(response => {
                             vm.responseTracks = response.data.tracks.items;
                             vm.responseArtists = response.data.artists.items;
@@ -207,7 +206,7 @@
             }
         },
         created: function () {
-            axios.defaults.headers.common['Authorization'] = `Bearer ` + localStorage.getItem('authToken');
+            request.defaults.headers.common['Authorization'] = `Bearer ` + localStorage.getItem('authToken');
         }
     };
 </script>
