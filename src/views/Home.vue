@@ -1,8 +1,7 @@
 <template>
     <v-app>
-        <v-navigation-drawer app>
-
-        </v-navigation-drawer>
+        <!--        <v-navigation-drawer app>-->
+        <!--        </v-navigation-drawer>-->
 
         <v-app-bar
                 app
@@ -43,7 +42,7 @@
                             justify="center"
                             align="center"
                     >
-                        <h2>Wykonawcy</h2>
+                        <h2 v-if="this.search !== ''">Wykonawcy</h2>
                         <v-layout wrap row>
                             <v-flex
                                     xs-12
@@ -63,13 +62,13 @@
                                         backgroundSize: 'cover'}"
                                     >
                                     </v-card>
-                                    <v-card-title class="d-flex justify-center">{{ artists.name }}
+                                    <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">{{ artists.name }}
                                     </v-card-title>
                                 </div>
                             </v-flex>
                         </v-layout>
-                        <hr class="my5">
-                        <h2>Utwory</h2>
+                        <hr class="my5" v-if="this.search !== ''">
+                        <h2 v-if="this.search !== ''">Utwory</h2>
                         <v-layout wrap row>
                             <v-flex
                                     xs-12
@@ -92,7 +91,7 @@
                                             backgroundSize: 'cover'}"
                                     >
                                     </v-card>
-                                    <v-card-title class="d-flex justify-center">
+                                    <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">
                                         {{ tracks.name }}
                                     </v-card-title>
                                     <v-card-text class="d-flex justify-center">
@@ -101,8 +100,8 @@
                                 </div>
                             </v-flex>
                         </v-layout>
-                        <hr>
-                        <h2>Albumy</h2>
+                        <hr v-if="this.search !== ''">
+                        <h2 v-if="this.search !== ''">Albumy</h2>
                         <v-layout wrap row>
                             <v-flex
                                     xs-12
@@ -117,14 +116,14 @@
                                         height="270"
                                         class="mx-auto"
                                         :style="{
-                                        backgroundImage: 'url(' + albumCover + ')',
+                                        backgroundImage: 'url(' + responseAlbums[indexAlbum].images[0].url + ')',
                                         backgroundSize: 'cover'}"
                                 >
                                 </v-card>
-                                <v-card-title class="d-flex justify-center">
+                                <v-card-title class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">
                                     {{ albums.name }}
                                 </v-card-title>
-                                <v-card-text class="d-flex justify-center">
+                                <v-card-text class="d-flex justify-center flex-wrap mx-auto text-center" style="width:250px;">
                                     {{ albums.artists[0].name }}
                                 </v-card-text>
                             </v-flex>
@@ -169,10 +168,10 @@
                 axios
                     .get(this.$store.state.auth.baseURL + `search?q=${this.search}&type=track,artist,album&limit=6`)
                     .then(response => {
-                        vm.responseTracks = response.data.tracks.items;
-                        vm.responseArtists = response.data.artists.items;
-                        vm.responseAlbums = response.data.albums.items;
-                        vm.responseError = '';
+                            vm.responseTracks = response.data.tracks.items;
+                            vm.responseArtists = response.data.artists.items;
+                            vm.responseAlbums = response.data.albums.items;
+                            vm.responseError = '';
                         },
                     )
                     .catch(err => {
@@ -200,11 +199,11 @@
             // })!!!
             albumCoverTest(indexAlbum) {
                 this.albumCover = this.responseAlbums[indexAlbum].images[0].url;
-                if (this.albumCover !== undefined) {
-                    this.albumCover = this.responseAlbums[indexAlbum].images[0].url;
-                } else {
-                    this.albumCover = 'https://i.scdn.co/image/cc1b320bd06c6167997e65fd5e38d35c1a26caf1';
-                }
+                // if (this.albumCover !== undefined) {
+                //     this.albumCover = this.responseAlbums[indexAlbum].images[0].url;
+                // } else {
+                //     this.albumCover = 'https://i.scdn.co/image/cc1b320bd06c6167997e65fd5e38d35c1a26caf1';
+                // }
             }
         },
         created: function () {

@@ -4,15 +4,29 @@ import Router from "vue-router"
 
 import login from './views/login'
 import Home from "./views/Home"
+import err from "./views/err"
 
 Vue.use(Router);
 
 const router = new Router({
     mode: 'history',
     routes: [
-        {path: '/', redirect: '/login'},
         {
-            path: '/login', name: 'Login', component: login,
+            path: '/',
+            redirect: '/login'
+        },
+        {
+            path: '/error',
+            component: err
+        },
+        {
+            path: '*',
+            redirect: '/error'
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: login,
             beforeEnter: (to, from, next) => {
                 if (localStorage.getItem('authToken')) {
                     next('/home')
@@ -22,16 +36,18 @@ const router = new Router({
             }
         },
         {
-            path: '/home', name: 'Home', component: Home,
+            path: '/home',
+            name: 'Home',
+            component: Home,
             beforeEnter: (to, from, next) => {
                 if (localStorage.getItem('authToken')) {
                     next()
                 } else {
                     next('/login')
                 }
-            }
+            },
         },
-        {path: '*', redirect: '/home'}
     ]
 });
+
 export default router;
