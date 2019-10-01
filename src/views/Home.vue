@@ -1,7 +1,14 @@
 <template>
     <v-app>
-        <!--        <v-navigation-drawer app>-->
-        <!--        </v-navigation-drawer>-->
+        <v-navigation-drawer app>
+                Witaj, Daniel
+                <ul style="list-style: none">
+                    <li>Artists</li>
+                    <li>Albums</li>
+                    <li>Tracks</li>
+                    <li>Playlists</li>
+                </ul>
+        </v-navigation-drawer>
 
         <v-app-bar
                 app
@@ -147,7 +154,7 @@
 </template>
 
 <script>
-    import token from "../services/token";
+    import search from "../services/search";
     import request from "../services/request";
 
     export default {
@@ -156,10 +163,10 @@
             return {
                 search: '',
                 responseTracks: [],
-                responseArtists: [],
-                responseAlbums: [],
+                responseArtists: '',
+                responseAlbums: '',
                 responseSuccess: '',
-                responseError: null,
+                responseError: search.responseError,
                 albumCover: '',
                 trackName: '',
                 trackArtist: '',
@@ -168,17 +175,12 @@
         },
         methods: {
             searchBar() {
-                let vm = this;
-                token.search(this.search)
-                .then(response => {
-                        vm.responseTracks = response.data.tracks.items;
-                        vm.responseArtists = response.data.artists.items;
-                        vm.responseAlbums = response.data.albums.items;
-                        vm.responseError = '';
-                    })
-                    .catch(err => {
-                        vm.responseError = err.response.data.error.message;
-                    })
+                let test = search.search(this.search);
+                this.responseTracks = test;
+                let aaa = Promise.resolve(test);
+                aaa.then(function (value) {
+                   console.log(value)
+                });
             },
             clearToken() {
                 localStorage.clear();
