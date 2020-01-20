@@ -3,7 +3,6 @@ import Router from "vue-router"
 import login from './views/login'
 import Home from "./views/Home"
 import err from "./views/err"
-import token from "./services/token";
 // import store from './store/store'
 
 Vue.use(Router);
@@ -47,11 +46,6 @@ const router = new Router({
                 }
             },
         },
-        {
-            path: '/token',
-            name: 'Token'
-            component: token
-        }
     ]
 });
 
