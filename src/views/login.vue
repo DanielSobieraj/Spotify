@@ -30,11 +30,12 @@
                                             v-model="token"
                                             :error-messages="responseError"
                                             color="#1db954"
-                                    ></v-text-field>
+                                    />
                                 </v-form>
                             </v-card-text>
                             <v-card-actions class="d-flex justify-center">
                                 <v-btn color="#1db954" dark large @click="sendToken">Zaloguj</v-btn>
+                                <v-btn color="#1db954" dark large to="/token">Token</v-btn>
                             </v-card-actions>
                         </v-card>
                         <!-- <p>{{ responseError }}</p>-->
